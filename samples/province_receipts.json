@@ -1,0 +1,66 @@
+[
+  {
+    "handoff_id": "ST01-W2026-0001-r1-a1b2c3",
+    "station_code": "ST01",
+    "sample_no": "W2026-0001",
+    "revision_no": 1,
+    "concentration": 25,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0001-r2-d4e5f6",
+    "station_code": "ST01",
+    "sample_no": "W2026-0001",
+    "revision_no": 2,
+    "concentration": 30,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0001-r3-abcdef",
+    "station_code": "ST01",
+    "sample_no": "W2026-0001",
+    "revision_no": 3,
+    "concentration": 28,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0003-r1-135790",
+    "station_code": "ST01",
+    "sample_no": "W2026-0003",
+    "revision_no": 1,
+    "concentration": 50,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0003-r2-246801",
+    "station_code": "ST01",
+    "sample_no": "W2026-0003",
+    "revision_no": 2,
+    "concentration": 55,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0004-r1-445566",
+    "station_code": "ST01",
+    "sample_no": "W2026-0004",
+    "revision_no": 1,
+    "concentration": 12,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0005-r1-aabbcc",
+    "station_code": "ST01",
+    "sample_no": "W2026-0005",
+    "revision_no": 1,
+    "concentration": 18,
+    "unit": "ug/L"
+  },
+  {
+    "handoff_id": "ST01-W2026-0005-r2-ddeeff",
+    "station_code": "ST01",
+    "sample_no": "W2026-0005",
+    "revision_no": 2,
+    "concentration": 19,
+    "unit": "ug/L"
+  }
+]

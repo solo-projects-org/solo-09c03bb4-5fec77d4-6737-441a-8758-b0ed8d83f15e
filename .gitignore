@@ -3,3 +3,7 @@ __pycache__/
 *.db
 *.db-wal
 *.db-shm
+
+# 样例备份需要随仓库提供; 不要被上面的 *.db 规则忽略
+!samples/old_backup.db
+!samples/conflict_backup.db

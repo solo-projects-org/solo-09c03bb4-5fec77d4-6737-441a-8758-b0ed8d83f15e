@@ -1,0 +1,103 @@
+{
+  "_comment": "old_backup.db + samples/province_receipts.json 恢复后应看到的状态",
+  "stats": {
+    "from_backup_only": 2,
+    "from_province_only": 3,
+    "matched": 5,
+    "acked": 8,
+    "pending": 2,
+    "conflicts": 0,
+    "revision_count": 10,
+    "sample_count": 5,
+    "station_code": "ST01",
+    "source_backup": "old_backup.db",
+    "recovered_at": "2026-11-13T08:20:55.924003+00:00"
+  },
+  "revisions": [
+    {
+      "sample_no": "W2026-0001",
+      "revision_no": 1,
+      "concentration": 25,
+      "handoff_id": "ST01-W2026-0001-r1-a1b2c3",
+      "status": "acked",
+      "source": "backup+province"
+    },
+    {
+      "sample_no": "W2026-0001",
+      "revision_no": 2,
+      "concentration": 30,
+      "handoff_id": "ST01-W2026-0001-r2-d4e5f6",
+      "status": "acked",
+      "source": "backup+province"
+    },
+    {
+      "sample_no": "W2026-0001",
+      "revision_no": 3,
+      "concentration": 28,
+      "handoff_id": "ST01-W2026-0001-r3-abcdef",
+      "status": "acked",
+      "source": "province"
+    },
+    {
+      "sample_no": "W2026-0002",
+      "revision_no": 1,
+      "concentration": 41,
+      "handoff_id": "ST01-W2026-0002-r1-112233",
+      "status": "pending",
+      "source": "backup"
+    },
+    {
+      "sample_no": "W2026-0003",
+      "revision_no": 1,
+      "concentration": 50,
+      "handoff_id": "ST01-W2026-0003-r1-135790",
+      "status": "acked",
+      "source": "province"
+    },
+    {
+      "sample_no": "W2026-0003",
+      "revision_no": 2,
+      "concentration": 55,
+      "handoff_id": "ST01-W2026-0003-r2-246801",
+      "status": "acked",
+      "source": "province"
+    },
+    {
+      "sample_no": "W2026-0004",
+      "revision_no": 1,
+      "concentration": 12,
+      "handoff_id": "ST01-W2026-0004-r1-445566",
+      "status": "acked",
+      "source": "backup+province"
+    },
+    {
+      "sample_no": "W2026-0004",
+      "revision_no": 2,
+      "concentration": 13,
+      "handoff_id": "ST01-W2026-0004-r2-778899",
+      "status": "pending",
+      "source": "backup"
+    },
+    {
+      "sample_no": "W2026-0005",
+      "revision_no": 1,
+      "concentration": 18,
+      "handoff_id": "ST01-W2026-0005-r1-aabbcc",
+      "status": "acked",
+      "source": "backup+province"
+    },
+    {
+      "sample_no": "W2026-0005",
+      "revision_no": 2,
+      "concentration": 19,
+      "handoff_id": "ST01-W2026-0005-r2-ddeeff",
+      "status": "acked",
+      "source": "backup+province"
+    }
+  ],
+  "after_handoff": {
+    "W2026-0001": 4,
+    "W2026-0003": 3,
+    "_comment": "恢复后新录入的下一个修订号"
+  }
+}

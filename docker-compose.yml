@@ -1,5 +1,23 @@
 name: tp-handoff
 
+# 两套部署方式:
+#   docker compose up -d province station-a station-b        # 日常运行
+#   docker compose --profile recovery up -d                  # 空白卷上以恢复模式启动
+# station-a / station-b(恢复模式下)与 station-a-recovery / station-b-recovery 共用
+# station-data 卷, 但两套服务不能同时启动(同一端口与同一数据库)。
+
+x-station-env: &station-env
+  STATION_DB: /data/station.db
+  PROVINCE_URL: http://province:8000
+  STATION_CODE: ST01
+
+x-station-health: &station-health
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+  interval: 10s
+  timeout: 3s
+  retries: 6
+  start_period: 5s
+
 services:
   province:
     build: ./province
@@ -23,22 +41,15 @@ services:
     ports:
       - "8001:8000"
     environment:
-      STATION_DB: /data/station.db
-      PROVINCE_URL: http://province:8000
+      <<: *station-env
       INSTANCE_ID: station-a
-      STATION_CODE: ST01
     volumes:
       - station-data:/data
     depends_on:
       province:
         condition: service_healthy
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
-      interval: 10s
-      timeout: 3s
-      retries: 6
-      start_period: 5s
+    healthcheck: *station-health
 
   station-b:
     build: ./station
@@ -46,22 +57,50 @@ services:
     ports:
       - "8002:8000"
     environment:
-      STATION_DB: /data/station.db
-      PROVINCE_URL: http://province:8000
+      <<: *station-env
       INSTANCE_ID: station-b
-      STATION_CODE: ST01
     volumes:
       - station-data:/data
     depends_on:
       province:
         condition: service_healthy
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
-      interval: 10s
-      timeout: 3s
-      retries: 6
-      start_period: 5s
+    healthcheck: *station-health
+
+  # ---- 恢复模式(recovery profile): 只在空白站内数据卷上启动 ----
+  station-a-recovery:
+    build: ./station
+    container_name: tp-station-a-recovery
+    profiles: ["recovery"]
+    ports:
+      - "8001:8000"
+    environment:
+      <<: *station-env
+      INSTANCE_ID: station-a
+      RECOVERY_MODE: "1"
+    volumes:
+      - station-data:/data
+    depends_on:
+      province:
+        condition: service_healthy
+    healthcheck: *station-health
+
+  station-b-recovery:
+    build: ./station
+    container_name: tp-station-b-recovery
+    profiles: ["recovery"]
+    ports:
+      - "8002:8000"
+    environment:
+      <<: *station-env
+      INSTANCE_ID: station-b
+      RECOVERY_MODE: "1"
+    volumes:
+      - station-data:/data
+    depends_on:
+      province:
+        condition: service_healthy
+    healthcheck: *station-health
 
 volumes:
   station-data:   # 两个站内进程共用的 SQLite 库
