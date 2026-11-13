@@ -1,0 +1,68 @@
+name: tp-handoff
+
+services:
+  province:
+    build: ./province
+    container_name: tp-province
+    ports:
+      - "8000:8000"
+    environment:
+      PROVINCE_DB: /data/province.db
+    volumes:
+      - province-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+  station-a:
+    build: ./station
+    container_name: tp-station-a
+    ports:
+      - "8001:8000"
+    environment:
+      STATION_DB: /data/station.db
+      PROVINCE_URL: http://province:8000
+      INSTANCE_ID: station-a
+      STATION_CODE: ST01
+    volumes:
+      - station-data:/data
+    depends_on:
+      province:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+
+  station-b:
+    build: ./station
+    container_name: tp-station-b
+    ports:
+      - "8002:8000"
+    environment:
+      STATION_DB: /data/station.db
+      PROVINCE_URL: http://province:8000
+      INSTANCE_ID: station-b
+      STATION_CODE: ST01
+    volumes:
+      - station-data:/data
+    depends_on:
+      province:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+
+volumes:
+  station-data:   # 两个站内进程共用的 SQLite 库
+  province-data:  # 省库持久化(去重键: 交接号)
